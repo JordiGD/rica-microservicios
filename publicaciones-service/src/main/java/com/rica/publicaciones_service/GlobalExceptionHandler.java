@@ -40,4 +40,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(estado).body(cuerpo);
     }
 
+    @ExceptionHandler(LimiteAnualExcedidoException.class)
+    public ResponseEntity<Map<String, Object>> manejarLimiteAnual(LimiteAnualExcedidoException ex) { 
+        return construirRespuesta(HttpStatus.CONFLICT, ex.getMessage()); 
+    } 
+  
+    @ExceptionHandler(ServicioNoDisponibleException.class) 
+    public ResponseEntity<Map<String, Object>> manejarServicioNoDisponible(ServicioNoDisponibleException ex) { 
+        return construirRespuesta(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage()); 
+    }
 }

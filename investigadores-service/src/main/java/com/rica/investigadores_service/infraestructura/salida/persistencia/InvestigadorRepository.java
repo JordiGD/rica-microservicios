@@ -1,11 +1,13 @@
 package com.rica.investigadores_service.infraestructura.salida.persistencia;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.rica.investigadores_service.dominio.Investigador;
 
 public interface InvestigadorRepository extends JpaRepository<Investigador, Long> {
 
-    boolean existsByCorreoInstitucional_Valor(String valor);
-    Investigador findByCorreoInstitucional_Valor(String valor);
+    boolean existsByCorreoInstitucional_Valor(String valor); 
+    Optional<Investigador> findByCorreoInstitucional_Valor(String valor);
 }
