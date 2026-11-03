@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: rica
       POSTGRES_PASSWORD: rica
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
   kafka: 
     image: apache/kafka:4.1.0 

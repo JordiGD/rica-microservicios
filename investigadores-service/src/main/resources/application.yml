@@ -5,7 +5,7 @@ spring:
   application: 
     name: investigadores-service 
   datasource: 
-    url: jdbc:postgresql://localhost:5432/rica 
+    url: jdbc:postgresql://localhost:5433/rica 
     username: rica 
     password: rica 
   grpc: 
