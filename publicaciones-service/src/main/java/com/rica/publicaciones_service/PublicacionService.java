@@ -6,15 +6,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PublicacionService {
-    
+
     private final PublicacionRepository publicacionRepository;
     private final VerificadorInvestigador verificadorInvestigador;
     private final LimitePublicacionesAnualesService limitePublicacionesAnualesService;
+    private final PublicadorEventosPublicaciones publicadorEventos;
 
-    public PublicacionService(PublicacionRepository publicacionRepository, VerificadorInvestigador verificadorInvestigador, LimitePublicacionesAnualesService limitePublicacionesAnualesService) {
+    public PublicacionService(PublicacionRepository publicacionRepository,
+            VerificadorInvestigador verificadorInvestigador,
+            LimitePublicacionesAnualesService limitePublicacionesAnualesService,
+            PublicadorEventosPublicaciones publicadorEventos) {
         this.publicacionRepository = publicacionRepository;
         this.verificadorInvestigador = verificadorInvestigador;
         this.limitePublicacionesAnualesService = limitePublicacionesAnualesService;
+        this.publicadorEventos = publicadorEventos;
     }
 
     public Publicacion registrar(Publicacion publicacion) {
@@ -22,11 +27,15 @@ public class PublicacionService {
             throw new RecursoNoEncontradoException(
                     "No existe un investigador con correo " + publicacion.getInvestigadorCorreo());
         }
-        if (!limitePublicacionesAnualesService.puedeRegistrar(
-            publicacion.getInvestigadorCorreo(), publicacion)) {
-            throw new LimiteAnualExcedidoException("El investigador ha alcanzado el límite de publicaciones anuales.");
+        if (!limitePublicacionesAnualesService.puedeRegistrar(publicacion.getInvestigadorCorreo(),
+                publicacion.getAnio())) {
+            throw new LimiteAnualExcedidoException(
+                    "El investigador " + publicacion.getInvestigadorCorreo()
+                            + " ya alcanzó el máximo de publicaciones registradas para " + publicacion.getAnio());
         }
-        return publicacionRepository.save(publicacion);
+        Publicacion guardada = publicacionRepository.save(publicacion);
+        publicadorEventos.publicacionRegistrada(guardada);
+        return guardada;
     }
 
     public List<Publicacion> listarPorInvestigador(String investigadorCorreo) {
@@ -38,4 +47,5 @@ public class PublicacionService {
                 .orElseThrow(() -> new RecursoNoEncontradoException(
                         "No existe una publicación con id " + id));
     }
+
 }

@@ -1,21 +1,27 @@
 package com.rica.investigadores_service.aplicacion;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rica.investigadores_service.RecursoNoEncontradoException;
 import com.rica.investigadores_service.dominio.Investigador;
 
 @Service
 public class InvestigadorService implements InvestigadorUseCase {
-    
-    private final RepositorioInvestigadores investigadorRepository;
-    private final InvestigadorFactory investigadorFactory;  
 
-    public InvestigadorService(RepositorioInvestigadores investigadorRepository, InvestigadorFactory investigadorFactory) {
+    private final RepositorioInvestigadores investigadorRepository;
+    private final InvestigadorFactory investigadorFactory;
+    private final PublicadorEventos publicadorEventos;
+
+    public InvestigadorService(RepositorioInvestigadores investigadorRepository,
+            InvestigadorFactory investigadorFactory,
+            PublicadorEventos publicadorEventos) {
         this.investigadorRepository = investigadorRepository;
         this.investigadorFactory = investigadorFactory;
+        this.publicadorEventos = publicadorEventos;
     }
 
     @Override
@@ -31,8 +37,50 @@ public class InvestigadorService implements InvestigadorUseCase {
     }
 
     @Override
+    @Transactional
     public Investigador registrar(String nombreCompleto, String correoInstitucional, String grupoInvestigacion) {
-        Investigador investigador = investigadorFactory.crear(nombreCompleto, correoInstitucional, grupoInvestigacion);
-        return investigadorRepository.guardar(investigador);
+        Investigador investigador = investigadorFactory.crear(nombreCompleto,
+                correoInstitucional, grupoInvestigacion);
+        Investigador guardado = investigadorRepository.guardar(investigador);
+
+        publicadorEventos.publicar(
+                "investigadores.registrados",
+                correoInstitucional,
+                Map.of("id", guardado.getId(),
+                        "correoInstitucional", correoInstitucional,
+                        "nombreCompleto", nombreCompleto));
+        return guardado;
     }
+
+    @Override
+    @Transactional
+    public void iniciarEliminacion(Long id) {
+        Investigador investigador = buscarPorId(id);
+        if (investigador.estaEnEliminacion()) {
+            return; // idempotente: la Saga ya está en curso
+        }
+        investigador.marcarEnEliminacion();
+        investigadorRepository.guardar(investigador);
+
+        String correo = investigador.getCorreoInstitucional().valor();
+        publicadorEventos.publicar(
+                "investigadores.en-eliminacion",
+                correo,
+                Map.of("correoInstitucional", correo));
+    }
+
+    @Override
+    @Transactional
+    public void confirmarEliminacion(String correoInstitucional) {
+        investigadorRepository.buscarPorCorreo(correoInstitucional)
+                .filter(Investigador::estaEnEliminacion)
+                .ifPresent(investigador -> {
+                    investigadorRepository.eliminar(investigador);
+                    publicadorEventos.publicar(
+                            "investigadores.eliminados",
+                            correoInstitucional,
+                            Map.of("correoInstitucional", correoInstitucional));
+                });
+    }
+
 }
