@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rica.investigadores_service.aplicacion.InvestigadorUseCase;
+import com.rica.investigadores_service.aplicacion.puertos.InvestigadorUseCase;
 import com.rica.investigadores_service.dominio.Investigador;
 
 import jakarta.validation.Valid;

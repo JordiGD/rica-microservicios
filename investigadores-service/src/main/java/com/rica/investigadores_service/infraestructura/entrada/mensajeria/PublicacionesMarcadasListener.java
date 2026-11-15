@@ -6,7 +6,7 @@ import org.slf4j.MDC;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import com.rica.investigadores_service.aplicacion.InvestigadorUseCase;
+import com.rica.investigadores_service.aplicacion.puertos.InvestigadorUseCase;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;

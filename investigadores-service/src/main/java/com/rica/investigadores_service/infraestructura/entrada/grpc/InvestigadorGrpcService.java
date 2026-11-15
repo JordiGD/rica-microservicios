@@ -2,7 +2,7 @@ package com.rica.investigadores_service.infraestructura.entrada.grpc;
   
 import org.springframework.grpc.server.service.GrpcService; 
   
-import com.rica.investigadores_service.aplicacion.RepositorioInvestigadores; 
+import com.rica.investigadores_service.aplicacion.puertos.RepositorioInvestigadores; 
 import com.rica.investigadores_service.grpc.InvestigadorGrpcGrpc; 
 import com.rica.investigadores_service.grpc.InvestigadorRequest; 
 import com.rica.investigadores_service.grpc.InvestigadorResponse; 

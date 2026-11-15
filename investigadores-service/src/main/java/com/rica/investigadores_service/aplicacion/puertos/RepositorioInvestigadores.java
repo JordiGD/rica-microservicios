@@ -1,4 +1,4 @@
-package com.rica.investigadores_service.aplicacion;
+package com.rica.investigadores_service.aplicacion.puertos;
 
 import java.util.List;
 import java.util.Optional;

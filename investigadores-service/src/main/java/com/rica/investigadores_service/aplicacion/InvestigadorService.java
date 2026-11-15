@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rica.investigadores_service.RecursoNoEncontradoException;
+import com.rica.investigadores_service.aplicacion.puertos.InvestigadorUseCase;
+import com.rica.investigadores_service.aplicacion.puertos.PublicadorEventos;
+import com.rica.investigadores_service.aplicacion.puertos.RepositorioInvestigadores;
 import com.rica.investigadores_service.dominio.Investigador;
 
 @Service

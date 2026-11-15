@@ -2,6 +2,7 @@ package com.rica.investigadores_service.aplicacion;
 
 import org.springframework.stereotype.Component;
 
+import com.rica.investigadores_service.aplicacion.puertos.RepositorioInvestigadores;
 import com.rica.investigadores_service.dominio.CorreoDuplicadoException;
 import com.rica.investigadores_service.dominio.CorreoInstitucional;
 import com.rica.investigadores_service.dominio.Investigador;

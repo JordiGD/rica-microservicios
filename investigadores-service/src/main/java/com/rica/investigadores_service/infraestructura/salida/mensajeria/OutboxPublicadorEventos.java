@@ -3,7 +3,7 @@ package com.rica.investigadores_service.infraestructura.salida.mensajeria;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
-import com.rica.investigadores_service.aplicacion.PublicadorEventos;
+import com.rica.investigadores_service.aplicacion.puertos.PublicadorEventos;
 
 import tools.jackson.databind.ObjectMapper;
 
