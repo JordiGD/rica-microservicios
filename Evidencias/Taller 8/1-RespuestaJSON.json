@@ -1,0 +1,24 @@
+[
+  {
+    "id": "8",
+    "investigadorCorreo": "paquita.barrio@uptc.edu.co",
+    "titulo": "Transmision de datos",
+    "tipo": "ARTICULO",
+    "anio": 2026,
+    "detalles": {
+      "revista": "Revista RICA",
+      "issn": "1234-5678"
+    }
+  },
+  {
+    "id": "9",
+    "investigadorCorreo": "paquita.barrio@uptc.edu.co",
+    "titulo": "Transmision de datos",
+    "tipo": "ARTICULO",
+    "anio": 2026,
+    "detalles": {
+      "revista": "Revista RICA",
+      "issn": "1234-5678"
+    }
+  }
+]
