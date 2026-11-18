@@ -1,6 +1,6 @@
 TALLERES
 Repositorio: https://github.com/JordiGD/rica-microservicios.git
-Commit del corte: f5e230188ecbe50d2eb3bde4175e8fef8973beb8
+Commit del corte: 6097e1e320c6259fe2909a36e26300e10a842da2
 Rama o PR por taller:
     Taller 6 -> taller-comunicacion
     Taller 8 -> taller-cqrs
